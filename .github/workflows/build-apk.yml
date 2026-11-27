@@ -1,3 +1,5 @@
+yaml
+
 name: Build Catet Duit Dewe APK
 
 on:
@@ -18,11 +20,14 @@ jobs:
         with:
           flutter-version: '3.24.0'
           channel: 'stable'
-      - run: flutter create . --platforms=android
+      - name: Generate Android Folder
+        run: |
+          mv android/app/src/main/AndroidManifest.xml /tmp/AndroidManifest.xml
+          flutter create . --platforms=android
+          cp /tmp/AndroidManifest.xml android/app/src/main/AndroidManifest.xml
       - run: flutter pub get
       - run: flutter build apk --release
       - uses: actions/upload-artifact@v4
         with:
           name: catet-duit-dewe-apk
           path: build/app/outputs/flutter-apk/app-release.apk
-          
