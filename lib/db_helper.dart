@@ -28,15 +28,14 @@ class DBHelper {
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             title TEXT,
             amount REAL,
-            type TEXT, -- 'expense' atau 'income'
+            type TEXT,
             category TEXT,
             wallet_id TEXT,
-            source TEXT, -- 'chat', 'notif', 'manual'
+            source TEXT,
             created_at TEXT
           )
         ''');
 
-        // Saldo awal default dompet
         final initialWallets = [
           {'id': 'cimb', 'name': 'CIMB Niaga', 'balance': 8930697.0},
           {'id': 'bca', 'name': 'BCA', 'balance': 114307.0},
@@ -80,7 +79,6 @@ class DBHelper {
       'created_at': DateTime.now().toIso8601String(),
     });
 
-    // Update saldo dompet terkait
     final wallets = await db.query('wallets', where: 'id = ?', whereArgs: [walletId]);
     if (wallets.isNotEmpty) {
       double current = (wallets.first['balance'] as num).toDouble();
